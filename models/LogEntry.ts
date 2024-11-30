@@ -1,13 +1,15 @@
 export default class LogEntry {
     private _id: string;
+    private _logId: string;
     private _date: Date;
     private _exercise: string;
     private _sets: number;
     private _reps: number;
     private _weight?: number;
 
-    constructor(id: string, date: Date, exercise: string, sets: number, reps: number, weight?: number) {
+    constructor(id: string, logId:string, date: Date, exercise: string, sets: number, reps: number, weight?: number) {
         this._id = id;
+        this._logId = logId; 
         this._date = date;
         this._exercise = exercise;
         this._sets = sets;
@@ -17,6 +19,10 @@ export default class LogEntry {
 
     get id(): string {
         return this._id;
+    }
+
+    get logId(): string {
+        return this._logId;
     }
 
     get date(): Date {  

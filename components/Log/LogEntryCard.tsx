@@ -27,7 +27,7 @@ const LogEntryCard: React.FC<LogEntryCardProps> = ({
     new Exercise("2", "pushups"),
     new Exercise("3", "pushups"),
     new Exercise("4", "pushups"),
-    new Exercise("5", "pushups"),
+    new Exercise("5", "situps"),
     new Exercise("6", "pushups"),
     new Exercise("7", "pushups"),
   ];
@@ -42,7 +42,10 @@ const LogEntryCard: React.FC<LogEntryCardProps> = ({
     });
   }, [logEntries]);
   return (
+    <View>
     <FlatList
+    scrollEnabled={false}
+    nestedScrollEnabled={true}
       className="bg-primary rounded-lg p-4 w-full border border-gray-500"
       data={logEntries}
       renderItem={({ item: logEntry }) => {
@@ -89,6 +92,7 @@ const LogEntryCard: React.FC<LogEntryCardProps> = ({
         );
       }}
     />
+    </View>
   );
 };
 

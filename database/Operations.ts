@@ -16,9 +16,10 @@ export const GetAllLogs = async (db: SQLite.SQLiteDatabase): Promise<Log[]> => {
 };
 
 export const GetAllLogEntriesByLogId = async (db: SQLite.SQLiteDatabase, logId: string): Promise<LogEntry[]> => {
-    const query = 'SELECT * FROM LogEntries WHERE logId = ?';
+    const query = 'SELECT * FROM LogEntries WHERE log_Id = ?';
     const result = await db.getAllAsync(query, [logId]);
-    return result.map((row: any) => new LogEntry(row.id, row.date, row.exercise, row.sets, row.reps, row.weight));
+    console.log("getting all log entries:", result);
+    return result.map((row: any) => new LogEntry(row.id, row.date, row.exercise_id, row.sets, row.reps, row.weight));
 };
 
 // export const GetAllLogsWithLogEntries = async (db: SQLite.SQLiteDatabase): Promise<Log> => {
@@ -35,17 +36,23 @@ export const InsertExercise = async (db: SQLite.SQLiteDatabase, exercise: Exerci
 
 export const InsertLog = async (db: SQLite.SQLiteDatabase, log: Log): Promise<SQLite.SQLiteRunResult> => {
     const query = 'INSERT INTO Logs (id, name, date) VALUES (?, ?, ?)';
+    console.log("in insertLog function");
     return await db.runAsync(query, [log.id, log.name, log.date.toISOString()]);
 };
 
 export const InsertLogEntry = async (db: SQLite.SQLiteDatabase, logEntry: LogEntry): Promise<SQLite.SQLiteRunResult> => {
-    const query = 'INSERT INTO LogEntries (id, logId, date, exercise, sets, reps, weight) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    return await db.runAsync(query, [logEntry.id, logEntry.id, logEntry.date.toISOString(), logEntry.exercise, logEntry.sets, logEntry.reps, logEntry.weight ?? null]);
+    const query = 'INSERT INTO LogEntries (id, log_id, date, exercise_id, sets, reps, weight) VALUES (?, ?, ?, ?, ?, ?, ?)';
+     const result = await db.runAsync(query, [logEntry.id, logEntry.logId, logEntry.date.toISOString(), logEntry.exercise, logEntry.sets, logEntry.reps, logEntry.weight ?? null]);
+     console.log("Here is result");
+     console.log(result);
+     return result;
 };
 
 export const UpdateLogEntry = async (db: SQLite.SQLiteDatabase, logEntry: LogEntry): Promise<SQLite.SQLiteRunResult> => {
-    const query = 'UPDATE LogEntries SET date = ?, exercise = ?, sets = ?, reps = ?, weight = ? WHERE id = ?';
-    return await db.runAsync(query, [logEntry.date.toISOString(), logEntry.exercise, logEntry.sets, logEntry.reps, logEntry.weight ?? null, logEntry.id]);
+    const query = 'UPDATE LogEntries SET exercise_id = ?, sets = ?, reps = ?, weight = ? WHERE id = ?';
+    const result =  await db.runAsync(query, [logEntry.exercise, logEntry.sets, logEntry.reps, logEntry.weight ?? null, logEntry.id]);
+    console.log("update entry: ", result);
+    return result;
 };
 
 export const DeleteLogEntry = async (db: SQLite.SQLiteDatabase, logEntry: LogEntry): Promise<SQLite.SQLiteRunResult> => {
