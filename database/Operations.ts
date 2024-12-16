@@ -19,8 +19,15 @@ export const GetAllLogEntriesByLogId = async (db: SQLite.SQLiteDatabase, logId: 
     const query = 'SELECT * FROM LogEntries WHERE log_Id = ?';
     const result = await db.getAllAsync(query, [logId]);
     console.log("getting all log entries:", result);
-    return result.map((row: any) => new LogEntry(row.id, row.date, row.exercise_id, row.sets, row.reps, row.weight));
+    return result.map((row: any) => new LogEntry(row.id, row.log_Id, row.date, row.exercise_id, row.sets, row.reps, row.weight));
 };
+
+export const GetLogEntryById = async (db: SQLite.SQLiteDatabase, logEntryId: string): Promise<LogEntry[]> => {
+    const query = 'SELECT * FROM LogEntries';
+    const result = await db.getAllAsync(query);
+    console.log(`result of fetching log entry: ${result}`)
+    return result.map((row: any) => new LogEntry(row.id, row.log_Id, row.date, row.exercise_id, row.sets, row.reps, row.weight));
+}
 
 // export const GetAllLogsWithLogEntries = async (db: SQLite.SQLiteDatabase): Promise<Log> => {
 //     const query = 'SELECT * FROM Logs INNER JOIN LogEntries ON Logs.id == LogEntries.logId';
@@ -43,6 +50,7 @@ export const InsertLog = async (db: SQLite.SQLiteDatabase, log: Log): Promise<SQ
 export const InsertLogEntry = async (db: SQLite.SQLiteDatabase, logEntry: LogEntry): Promise<SQLite.SQLiteRunResult> => {
     const query = 'INSERT INTO LogEntries (id, log_id, date, exercise_id, sets, reps, weight) VALUES (?, ?, ?, ?, ?, ?, ?)';
      const result = await db.runAsync(query, [logEntry.id, logEntry.logId, logEntry.date.toISOString(), logEntry.exercise, logEntry.sets, logEntry.reps, logEntry.weight ?? null]);
+     debugger;
      console.log("Here is result");
      console.log(result);
      return result;

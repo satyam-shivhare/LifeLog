@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const UpdateLog = () => {
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { logId } = useLocalSearchParams();
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
   const db = useSQLiteContext();
 
@@ -35,16 +35,17 @@ const UpdateLog = () => {
 
   const onUpdate = async (logEntry: LogEntry) => {
     try{
-    await UpdateLogEntry(db, logEntry);
+    //await UpdateLogEntry(db, logEntry);
+    router.push(`/(tabs)/(Logs)/UpdateLog/UpdateLogEntry/[${logEntry.id}]`)
     }catch(error){
       console.log("update error is:", error);
     }
   }
   const addNewLogEntry = async ():Promise<void> => {
-    const newLogEntry:LogEntry = new LogEntry(uuidv4(), id as string, new Date(), id as string, 1, 1, 1);
+    const newLogEntry:LogEntry = new LogEntry(uuidv4(), logId as string, new Date(), logId as string, 1, 1, 1);
     debugger;
     console.log("i AM HERE");
-    console.log("log id :", id);
+    console.log("log id :", logId);
     setLogEntries((prevEntries) => [...prevEntries, newLogEntry]);
     try{
       await InsertLogEntry(db, newLogEntry);
@@ -57,7 +58,7 @@ const UpdateLog = () => {
 
   const getLogEntries = () => {
     try{
-    GetAllLogEntriesByLogId(db, id as string).then(setLogEntries).catch(error => console.log(error));
+    GetAllLogEntriesByLogId(db, logId as string).then(setLogEntries).catch(error => console.log(error));
     }catch(error){
       console.log(error);
     }

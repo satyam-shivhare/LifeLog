@@ -8,6 +8,10 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true ,
+    "jsEngine": "hermes",
+    "packager": {
+      "sourceMaps": true
+    },
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

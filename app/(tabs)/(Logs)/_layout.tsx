@@ -17,8 +17,12 @@ export default function LogsLayout() {
         headerShown: false,
         presentation: 'modal'
       }} />
-      <Stack.Screen name='UpdateLog/[id]' options={{
+      <Stack.Screen name='UpdateLog/[logId]' options={{
         headerShown: false,
+      }} />
+      <Stack.Screen name='UpdateLog/UpdateLogEntry/[id]' options={{
+        headerShown: false,
+        presentation: "modal"
       }} />
     </Stack>
   );
