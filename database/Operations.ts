@@ -22,11 +22,12 @@ export const GetAllLogEntriesByLogId = async (db: SQLite.SQLiteDatabase, logId: 
     return result.map((row: any) => new LogEntry(row.id, row.log_Id, row.date, row.exercise_id, row.sets, row.reps, row.weight));
 };
 
-export const GetLogEntryById = async (db: SQLite.SQLiteDatabase, logEntryId: string): Promise<LogEntry[]> => {
-    const query = 'SELECT * FROM LogEntries';
-    const result = await db.getAllAsync(query);
+export const GetLogEntryById = async (db: SQLite.SQLiteDatabase, logEntryId: string): Promise<LogEntry> => {
+    const query = 'SELECT * FROM LogEntries WHERE id = ?';
+    console.log("id for fetching is : ", logEntryId);
+    const result:any = await db.getFirstAsync(query, [logEntryId]);
     console.log(`result of fetching log entry: ${result}`)
-    return result.map((row: any) => new LogEntry(row.id, row.log_Id, row.date, row.exercise_id, row.sets, row.reps, row.weight));
+    return new LogEntry(result.id, result.log_Id, result.date, result.exercise_id, result.sets, result.reps, result.weight);
 }
 
 // export const GetAllLogsWithLogEntries = async (db: SQLite.SQLiteDatabase): Promise<Log> => {

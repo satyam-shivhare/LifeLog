@@ -36,7 +36,7 @@ const UpdateLog = () => {
   const onUpdate = async (logEntry: LogEntry) => {
     try{
     //await UpdateLogEntry(db, logEntry);
-    router.push(`/(tabs)/(Logs)/UpdateLog/UpdateLogEntry/[${logEntry.id}]`)
+    router.push(`/(tabs)/(Logs)/UpdateLog/UpdateLogEntry/${logEntry.id}`)
     }catch(error){
       console.log("update error is:", error);
     }
